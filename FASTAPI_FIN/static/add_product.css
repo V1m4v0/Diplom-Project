@@ -27,6 +27,11 @@ input, textarea {
     border-radius: 5px;
 }
 
+textarea {
+    height: 100px; /* Фиксированная высота для описания товара */
+    resize: none; /* Отключаем возможность изменения размера */
+}
+
 button {
     background-color: #4CAF50; /* Зеленый цвет кнопки */
     color: white;
@@ -38,5 +43,20 @@ button {
 }
 
 button:hover {
+    background-color: #45a049; /* Темнее при наведении */
+}
+
+.back-button {
+    background-color: #4CAF50; /* Зеленый цвет кнопки */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 200px; /* Ширина кнопки */
+    margin-top: 10px; /* Отступ сверху */
+}
+
+.back-button:hover {
     background-color: #45a049; /* Темнее при наведении */
 }

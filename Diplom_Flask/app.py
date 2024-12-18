@@ -7,7 +7,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SECRET_KEY'] = 'your_secret_key'
 db = SQLAlchemy(app)
 
-
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True, nullable=False)
@@ -56,7 +55,7 @@ from flask import session
 
 @app.route('/logout')
 def logout():
-    session.pop('username', None)  # Удаляем пользователя из сессии
+    session.pop('username', None)
     flash('Вы вышли из системы.')
     return redirect(url_for('login'))
 
@@ -69,8 +68,8 @@ def login():
         password = request.form['password']
 
         user = User.query.filter_by(username=username).first()
-        if user and check_password_hash(user.password, password):  # Проверка пароля
-            session['username'] = username  # Сохраняем пользователя в сессии
+        if user and check_password_hash(user.password, password):
+            session['username'] = username
             flash('Вы успешно вошли в систему.')
             return redirect(url_for('store'))
         else:
@@ -89,8 +88,8 @@ import os
 from flask import Flask, request, redirect, url_for, flash
 from werkzeug.utils import secure_filename
 
-app.config['UPLOAD_FOLDER'] = 'static/uploads'  # Папка для сохранения загруженных изображений
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Максимальный размер файла 16MB
+app.config['UPLOAD_FOLDER'] = 'static/uploads'
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 # Убедитесь, что папка существует
 if not os.path.exists(app.config['UPLOAD_FOLDER']):
@@ -111,14 +110,14 @@ def admin():
         if 'photo' in request.files:
             photo = request.files['photo']
             if photo and allowed_file(photo.filename):
-                filename = secure_filename(photo.filename)  # Используем secure_filename
-                photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))  # Сохранение файла
+                filename = secure_filename(photo.filename)
+                photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                 image_url = f'/static/uploads/{filename}'
             else:
                 flash('Неправильный формат файла.')
                 return redirect(url_for('admin'))
         else:
-            image_url = None  # Если изображение не загружено
+            image_url = None
 
         new_product = Product(name=name, description=description, price=price, image_url=image_url)
         db.session.add(new_product)
@@ -127,13 +126,13 @@ def admin():
         flash('Товар успешно добавлен!')
         return redirect(url_for('admin'))
 
-    products = Product.query.all()  # Получаем все продукты
-    return render_template('admin.html', products=products)  # Передаем продукты в шаблон
+    products = Product.query.all()
+    return render_template('admin.html', products=products)
 
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'png', 'jpg', 'jpeg',
-                                                                      'gif'}  # Разрешенные форматы
+                                                                      'gif'}
 
 @app.route('/add_to_cart/<int:product_id>', methods=['POST'])
 def add_to_cart(product_id):
@@ -164,7 +163,6 @@ def cart():
 @app.route('/create_admin', methods=['GET', 'POST'])
 def create_admin():
     if request.method == 'POST':
-        # Проверка, если это действительно создается администратор
         admin_username = request.form['username']
         admin_password = request.form['password']
 

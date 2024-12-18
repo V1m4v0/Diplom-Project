@@ -11,7 +11,7 @@
         {% if 'username' in session %}
             <p>Добро пожаловать, {{ session['username'] }}!</p>
             {% if session['username'] == 'admin' %}
-                <a href="{{ url_for('admin') }}" class="button">Добавить товар</a>
+                <a href="{{ url_for('admin') }}" class="button">Управление товарами</a>
             {% endif %}
             <a href="{{ url_for('cart') }}" class="button">Корзина</a>
             <a href="{{ url_for('logout') }}" class="button">Выйти из системы</a>
