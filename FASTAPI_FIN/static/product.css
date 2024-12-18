@@ -1,0 +1,74 @@
+body {
+    background-color: #e8f5e9; /* Зеленый фон */
+    color: #333;
+    font-family: Arial, sans-serif;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around; /* Центрируем товары в строке */
+}
+
+li {
+    background: #f9f9f9;
+    margin: 10px;
+    padding: 20px; /* Увеличили отступы */
+    border-radius: 10px; /* Увеличили радиус скругления */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Увеличили тень */
+    text-align: center;
+    width: calc(33.33% - 20px);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column; /* Вертикальное направление */
+    justify-content: space-between; /* Уравниваем элементы */
+    height: 350px; /* Фиксированная высота для всех товаров */
+}
+
+h3 {
+    margin: 0;
+}
+
+img {
+    width: 100%; /* Устанавливаем ширину 100% */
+    height: auto; /* Высота автоматически подстраивается */
+    max-height: 150px; /* Ограничиваем высоту изображения */
+    object-fit: contain; /* Сохраняем пропорции изображения */
+    border-radius: 5px; /* Скругляем углы изображения */
+}
+
+.product-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.description {
+    max-height: 60px; /* Ограничение высоты для отображения */
+    overflow: hidden; /* Скрытие переполнения */
+    text-overflow: ellipsis; /* Добавление многоточия для длинного текста */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3; /* Количество строк для отображения */
+}
+
+.button-container {
+    margin-top: auto; /* Перемещение кнопок вниз */
+}
+
+.btn {
+    background-color: #4CAF50; /* Зеленый цвет кнопок */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.btn:hover {
+    background-color: #45a049; /* Темнее при наведении */
+}

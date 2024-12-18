@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Главная страница</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='product.css') }}">
+    <style>
+        /* Модальное окно */
+        .modal {
+            display: none; /* Скрыто по умолчанию */
+            position: fixed; /* Открывается на экране */
+            z-index: 1; /* На переднем плане */
+            left: 0;
+            top: 0;
+            width: 100%; /* Полная ширина */
+            height: 100%; /* Полная высота */
+            overflow: auto; /* Прокрутка, если нужно */
+            background-color: rgb(0,0,0); /* Черный фон с прозрачностью */
+            background-color: rgba(0,0,0,0.4); /* Черный фон с прозрачностью */
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% сверху и выравнивание по центру */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Ширина модального окна */
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Добро пожаловать в магазин компьютерных запчастей</h1>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <div>
+        {% if user %}
+            <p>Вы вошли как: {{ user }}</p>
+            <form action="/logout" method="post" style="display:inline;">
+                <button type="submit" class="btn">Выйти</button>
+            </form>
+            <a href="/cart" class="btn">Корзина</a>
+            {% if admin_user %}
+                <a href="/admin/products/add" class="btn">Добавить товар</a>
+            {% endif %}
+        {% else %}
+            <a href="/login" class="btn">Войти</a>
+            <a href="/register" class="btn">Регистрация</a>
+        {% endif %}
+    </div>
+
+    <h2>Товары</h2>
+    <ul>
+        {% for product in products %}
+            <li class="product-info">
+                <h3>{{ product.name }}</h3>
+                {% if product.image_url %}
+                    <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                {% endif %}
+                <p>Цена: {{ product.price }} руб.</p>
+                <div class="button-container">
+                    <button class="btn" onclick="openModal('{{ product.name }}', '{{ product.description }}')">Показать описание</button>
+                    {% if user and not admin_user %}
+                        <form action="/cart/add/{{ product.id }}" method="post" style="display:inline;">
+                            <button type="submit" class="btn">Добавить в корзину</button>
+                        </form>
+                    {% elif admin_user %}
+                        <form action="/admin/products/remove/{{ product.id }}" method="post" style="display:inline;">
+                            <button type="submit" class="btn">Удалить товар</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Модальное окно -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3 id="modalTitle"></h3>
+            <p id="modalDescription"></p>
+        </div>
+    </div>
+
+    <script>
+        function openModal(title, description) {
+            document.getElementById("modalTitle").innerText = title;
+            document.getElementById("modalDescription").innerText = description;
+            document.getElementById("myModal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("myModal").style.display = "none";
+        }
+        // Закрытие модального окна при клике вне его
+        window.onclick = function(event) {
+            var modal = document.getElementById("myModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

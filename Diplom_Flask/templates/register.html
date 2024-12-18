@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Регистрация</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h2>Регистрация</h2>
+
+    {% with messages = messages %}
+        {% if messages %}
+            <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        <label for="username">Имя пользователя:</label>
+        <input type="text" name="username" required>
+        <label for="password">Пароль:</label>
+        <input type="password" name="password" required>
+        <label for="confirm_password">Подтверждение пароля:</label>
+        <input type="password" name="confirm_password" required>
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+    <p>Уже зарегистрированы? <a href="{{ url_for('login') }}">Войти в систему</a></p>
+</body>
+</html>

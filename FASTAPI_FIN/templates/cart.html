@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корзина</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='cart.css') }}">
+</head>
+<body>
+    <h2>Корзина</h2>
+    <p><a href="/" class="btn">Вернуться в магазин</a></p> <!-- Кнопка перемещена вверх -->
+
+    <ul>
+        {% for item in cart_items %}
+            <li>
+                <h3>{{ item.product.name }}</h3>
+                {% if item.product.image_url %}
+                    <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}">
+                {% endif %}
+                <p>Цена: {{ item.product.price }} руб.</p>
+                <form action="/cart/remove/{{ item.id }}" method="post" style="display:inline;">
+                    <button type="submit" class="btn">Удалить из корзины</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <p><a href="/" class="btn">Вернуться в магазин</a></p>
+</body>
+</html>
+

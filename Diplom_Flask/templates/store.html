@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Магазин товаров для дома</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Магазин товаров для дома</h2>
+
+        {% if 'username' in session %}
+            <p>Добро пожаловать, {{ session['username'] }}!</p>
+            {% if session['username'] == 'admin' %}
+                <a href="{{ url_for('admin') }}" class="button">Добавить товар</a>
+            {% endif %}
+            <a href="{{ url_for('cart') }}" class="button">Корзина</a>
+            <a href="{{ url_for('logout') }}" class="button">Выйти из системы</a>
+        {% else %}
+            <p>Вы не вошли в систему. <a href="{{ url_for('login') }}" class="button">Войти</a></p>
+        {% endif %}
+
+        {% for product in products %}
+        <div>
+            <h3>{{ product.name }}</h3>
+            <p>{{ product.description }}</p>
+            <p>Цена: {{ product.price }} ₽</p>
+            <img src="{{ product.image_url }}" alt="{{ product.name }}" style="width: 300px; height: auto;">
+            <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="POST">
+                <button type="submit" class="button">Положить в корзину</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

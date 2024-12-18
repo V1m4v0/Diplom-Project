@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Создать администратора</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h2>Создать администратора</h2>
+    <form method="POST">
+        <label for="username">Имя пользователя:</label>
+        <input type="text" name="username" required>
+        <label for="password">Пароль:</label>
+        <input type="password" name="password" required>
+        <button type="submit">Создать администратора</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Регистрация администратора</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='login_register.css') }}">
+</head>
+<body>
+    <h2>Регистрация администратора</h2>
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+    <form action="/admin/register" method="post">
+        <input type="text" name="username" placeholder="Имя пользователя" required>
+        <input type="password" name="password" placeholder="Пароль" required>
+        <input type="password" name="confirm_password" placeholder="Повторите пароль" required>
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+    <p>Уже есть аккаунт? <a href="/login">Войти</a></p>
+</body>
+</html>

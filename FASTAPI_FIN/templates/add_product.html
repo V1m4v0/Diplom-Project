@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить товар</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='product.css') }}">
+</head>
+<body>
+    <h2>Добавить новый товар</h2>
+    <form action="/admin/products/add" method="post">
+        <input type="text" name="name" placeholder="Имя товара" required>
+        <textarea name="description" placeholder="Описание товара" required></textarea>
+        <input type="number" step="0.01" name="price" placeholder="Цена" required>
+        <input type="text" name="image_url" placeholder="URL изображения (опционально)">
+        <button type="submit">Добавить товар</button>
+    </form>
+    <p><a href="/">Назад на главную</a></p>
+</body>
+</html>
