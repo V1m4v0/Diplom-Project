@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Магазин игр</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'users/styles.css' %}">
+</head>
+<body>
+    <h2>Магазин игр</h2>
+    <nav>
+        {% if user.is_authenticated %}
+            <p>Добро пожаловать, {{ user.username }}!</p>
+            <a href="{% url 'cart' %}">Ваша корзина</a>
+            <a href="{% url 'logout' %}">Выйти из системы</a>
+            {% if user.is_superuser %}
+                <a href="{% url 'add_game' %}">Добавить игру</a>
+            {% endif %}
+        {% else %}
+            <p>Вы не вошли в систему.</p>
+            <a href="{% url 'login' %}">Вход в систему</a>
+            <a href="{% url 'register' %}">Регистрация</a>
+        {% endif %}
+    </nav>
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <ul>
+        {% for game in games %}
+            <li>
+                <h3>{{ game.title }}</h3>
+                <p>{{ game.description }}</p>
+                <img src="{{ game.image.url }}" alt="{{ game.title }}" width="200">
+                <form method="POST" action="{% url 'delete_game' game.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    {% if user.is_superuser %}
+                        <button type="submit">Удалить игру</button>
+                    {% endif %}
+                </form>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="game_id" value="{{ game.id }}">
+                    <button type="submit">Добавить в корзину</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

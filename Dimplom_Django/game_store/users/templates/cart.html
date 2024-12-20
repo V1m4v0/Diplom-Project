@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ваша корзина</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'users/styles.css' %}">
+</head>
+<body>
+    <h2>Ваша корзина</h2>
+    <nav>
+        <a href="{% url 'store' %}">Магазин</a>
+        <a href="{% url 'logout' %}">Выход из системы</a>
+    </nav>
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <ul>
+        {% if games %}
+            {% for game in games %}
+                <li>
+                    <h3>{{ game.title }}</h3>
+                    <p>{{ game.description }}</p>
+                    <img src="{{ game.image.url }}" alt="{{ game.title }}" width="200">
+                    <form method="POST" style="display:inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="game_id" value="{{ game.id }}">
+                        <button type="submit">Удалить из корзины</button>
+                    </form>
+                </li>
+            {% endfor %}
+        {% else %}
+            <li>Ваша корзина пуста.</li>
+        {% endif %}
+    </ul>
+</body>
+</html>
